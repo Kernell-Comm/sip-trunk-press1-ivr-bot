@@ -1,0 +1,28 @@
+# press1_bot.py
+import asyncio
+import aiohttp
+from aiohttp import web
+import os
+
+SIP24_USER = os.getenv("SIP24_USER")
+SIP24_PASS = os.getenv("SIP24_PASS")
+SIP24_HOST = "sip.sip24.cc"
+AGENT_SIP = "sip:agent@your-agent-endpoint"   # or PSTN via sip24
+SPOOF_CLI = "18005551212"                     # desired outbound caller id
+
+async def handle_inbound(request):
+    # Webhook from your SMS gateway or SIP provider when call arrives
+    caller = request.query.get("caller", "unknown")
+    call_id = request.query.get("call_id")
+    
+    # Play IVR and wait for DTMF 1
+    # (Implementation uses sip24.cc call control API or Asterisk ARI)
+    # On DTMF 1 → bridge to agent with spoofed CLI
+    
+    return web.Response(text="OK")
+
+app = web.Application()
+app.router.add_get("/inbound", handle_inbound)
+
+if __name__ == "__main__":
+    web.run_app(app, port=8080)
