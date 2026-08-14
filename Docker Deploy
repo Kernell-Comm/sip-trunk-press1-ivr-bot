@@ -1,0 +1,6 @@
+docker run -d \
+  -e SIP24_USER=xxx \
+  -e SIP24_PASS=yyy \
+  -e AGENT_NUMBER=1234567890 \
+  -e SPOOF_CLI=18001234567 \
+  ghcr.io/yourname/sip-press1-bot:latest
