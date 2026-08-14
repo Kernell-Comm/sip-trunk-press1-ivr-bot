@@ -1,0 +1,18 @@
+[press1-ivr]
+exten => _X.,1,NoOp(Inbound call from ${CALLERID(num)})
+ same => n,Set(CHANNEL(musicclass)=default)
+ same => n,Answer()
+ same => n,Wait(1)
+ same => n,Background(custom/press1-prompt)   ; “Press 1 to speak with an agent”
+ same => n,WaitExten(5)
+
+exten => 1,1,NoOp(Press 1 received – transferring)
+ same => n,Set(CALLERID(num)=${SPOOFED_CLI})  ; set your spoofed caller id here
+ same => n,Dial(SIP/sip24/${AGENT_NUMBER},30,tT)
+ same => n,Hangup()
+
+exten => i,1,Playback(invalid)
+ same => n,Hangup()
+
+exten => t,1,Playback(goodbye)
+ same => n,Hangup()
